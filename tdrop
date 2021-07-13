@@ -70,13 +70,13 @@ See man page for more details.
 }
 
 error() {
-	echo >&2 "Error: $@" | tee -a "$LOG_FILE"
+	echo "Error: $*" > >(tee -a "$LOG_FILE" >&2)
 	exit 1
 }
 
 debug() {
-	if $debug; then
-		echo >&2 "Debug: $@" | tee -a "$LOG_FILE"
+	if $debug || [[ $program == auto_show ]]; then
+		echo "Debug: $*" > >(tee -a "$LOG_FILE" >&2)
 	fi
 }
 
